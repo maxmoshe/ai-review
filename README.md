@@ -50,6 +50,8 @@ Triggers can be changed to suit your needs. For example if you have no automatio
       (github.event.issue.pull_request && github.event.comment.body == '/review')
 ```
 
+Create an openrouter api key and github api key secrets in your repo `Settings->Secrets->Actions`
+
 ## Inputs
 
 - `prompt`: The prompt to use to review the code.
