@@ -19,12 +19,6 @@ jobs:
       (github.event.action == 'review_requested' && github.event.requested_reviewer.login == '<automation-github-username>')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          # Checkout pull request branch instead of merge commit
-          ref: ${{ github.event.pull_request.head.ref }}
-          fetch-depth: 0
-
       # - uses: ./.github/actions/review
       - uses: maxmoshe/ai-review@main
         with:
