@@ -1,3 +1,10 @@
+# AI Code Review Action
+
+This action uses AI to review code and leave a review on the PR.
+
+## Usage
+
+```
 # example workflow for ai code review
 name: Ai Code Review
 on:
@@ -27,3 +34,14 @@ jobs:
           exclude: .*\.js, .*\.js\.map, yarn.lock
           pullNumber: ${{ github.event.pull_request.number }}
           maxLines: 600
+```
+
+## Inputs
+
+- `githubToken`: The GitHub token to use to leave a review.
+- `model`: The model to use to review the code.
+- `openAiApiKey`: The OpenAI API key to use to review the code.
+- `exclude`: Regex patterns to exclude from review.
+- `pullNumber`: The pull request number to review.
+- `maxLines`: The maximum number of lines to review.
+- `updateReview`: Whether to update the review if it already exists. If false, create a new additional review.

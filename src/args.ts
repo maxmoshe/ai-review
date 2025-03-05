@@ -10,6 +10,7 @@ export const getArgs = () => {
     const exclude = getInput('exclude') || '.*\\.js, .*\\.js\\.map'
     const maxLines = getInput('maxLines')
     const pullNumber = getInput('pullNumber')
+    const updateReview = getInput('updateReview')
 
     const inputs = {
         githubToken,
@@ -19,6 +20,7 @@ export const getArgs = () => {
         exclude,
         maxLines,
         pullNumber,
+        updateReview,
     }
 
     return inputs

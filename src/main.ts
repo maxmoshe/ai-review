@@ -51,14 +51,16 @@ const leaveReviewComment = async ({
     pullNumber,
     body,
     comments,
+    updateReview,
 }: {
     pullNumber: number
     body: string
     comments?: Array<{ body: string; path: string; line?: number }>
+    updateReview: boolean
 }): Promise<void> => {
     const existingReviewId = await findExistingReview(pullNumber)
 
-    if (existingReviewId) {
+    if (existingReviewId && updateReview) {
         await octokit.rest.pulls.updateReview({
             owner,
             repo,
@@ -87,7 +89,7 @@ const createReviewBody = (response: string) => {
     return `${response}\n\nto get an updated review, request a review from me in the pr Reviewers section.`
 }
 const main = async () => {
-    const { exclude, maxLines, pullNumber: pullNumberString, model, openAiApiKey, openAiUrl } = getArgs()
+    const { exclude, maxLines, pullNumber: pullNumberString, model, openAiApiKey, openAiUrl, updateReview } = getArgs()
     const pullNumber = parseInt(pullNumberString)
     console.log('Review arguments:', JSON.stringify({ pullNumber, model, exclude, maxLines }, null, 2))
 
@@ -110,7 +112,7 @@ const main = async () => {
         .join('\n')
 
     if (concatedDiff.split('\n').length > parseInt(maxLines)) {
-        leaveReviewComment({ pullNumber, body: `this pr is too long for me to review.` })
+        leaveReviewComment({ pullNumber, body: `this pr is too long for me to review.`, updateReview: updateReview === 'true' })
         throw new Error(`Diff exceeds max lines - lines: ${concatedDiff.split('\n').length}, max: ${maxLines}`)
     }
 
@@ -131,7 +133,7 @@ const main = async () => {
     console.log('Token usage:', JSON.stringify(data.usage, null, 2))
     const reviewBody = createReviewBody(responseMessage)
 
-    leaveReviewComment({ pullNumber, body: reviewBody })
+    leaveReviewComment({ pullNumber, body: reviewBody, updateReview: updateReview === 'true' })
 }
 
 main().catch((error) => {

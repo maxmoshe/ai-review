@@ -23,6 +23,10 @@ inputs:
   openAiUrl:
     description: OpenAI API URL
     required: false
+  updateReview:
+    description: Update the review if it already exists. If false, create a new review.
+    required: false
+    default: true
 
 runs:
   using: 'node22'
