@@ -3,11 +3,13 @@ export const promptOpenRouter = async ({
     prompt,
     model,
     baseURL,
+    allowDataCollection = false,
 }: {
     apiKey: string
     prompt: string
     model: string
     baseURL: string
+    allowDataCollection?: boolean
 }) => {
     return await fetch(baseURL, {
         method: 'POST',
@@ -24,7 +26,7 @@ export const promptOpenRouter = async ({
                 },
             ],
             provider: {
-                data_collection: 'deny',
+                data_collection: allowDataCollection ? 'allow' : 'deny',
             },
         }),
     })

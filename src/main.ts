@@ -80,16 +80,13 @@ const leaveReviewComment = async ({
     }
 }
 
-const createPrompt = (diff: string) => `
-    ${PROMPT}
+const createPrompt = ({ diff, prompt }: { diff: string, prompt: string }) => `
+    ${prompt ?? PROMPT}
     ${diff}
     `
 
-const createReviewBody = (response: string) => {
-    return `${response}\n\nto get an updated review, request a review from me in the pr Reviewers section.`
-}
 const main = async () => {
-    const { exclude, maxLines, pullNumber: pullNumberString, model, openAiApiKey, openAiUrl, updateReview } = getArgs()
+    const { exclude, maxLines, pullNumber: pullNumberString, model, openAiApiKey, openAiUrl, updateReview, prompt, allowDataCollection } = getArgs()
     const pullNumber = parseInt(pullNumberString)
     console.log('Review arguments:', JSON.stringify({ pullNumber, model, exclude, maxLines }, null, 2))
 
@@ -118,9 +115,10 @@ const main = async () => {
 
     const response = await promptOpenRouter({
         apiKey: openAiApiKey,
-        prompt: createPrompt(concatedDiff),
+        prompt: createPrompt({ diff: concatedDiff, prompt }),
         model: model,
         baseURL: openAiUrl,
+        allowDataCollection,
     })
 
     const data: OpenRouterResponse = await response.json()
@@ -131,7 +129,7 @@ const main = async () => {
     const responseMessage = data.choices[0].message.content
     console.log(`response: ${responseMessage}`)
     console.log('Token usage:', JSON.stringify(data.usage, null, 2))
-    const reviewBody = createReviewBody(responseMessage)
+    const reviewBody = responseMessage
 
     leaveReviewComment({ pullNumber, body: reviewBody, updateReview: updateReview === 'true' })
 }
