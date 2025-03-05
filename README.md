@@ -4,6 +4,8 @@ This action uses AI to review code and leave a review on the PR.
 
 ## Usage
 
+Create an openrouter api key and github api key secrets in your repo `Settings->Secrets->Actions`
+
 ```
 # example workflow for ai code review
 name: Ai Code Review
