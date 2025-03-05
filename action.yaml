@@ -1,0 +1,29 @@
+name: ai-review
+description: Review code
+inputs:
+  githubToken:
+    description: GitHub token
+    required: true
+  exclude:
+    description: Files to exclude from review
+    default: ''
+    required: false
+  openAiApiKey:
+    description: OpenAI API Key
+    required: true
+  openAiModel:
+    description: OpenAI Model to use
+    required: true
+  pullNumber:
+    description: Pull Request number
+    required: true
+  maxLines:
+    description: Maximum lines to review
+    required: false
+  openAiUrl:
+    description: OpenAI API URL
+    required: false
+
+runs:
+  using: 'node22'
+  main: 'main.js'
