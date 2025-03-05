@@ -4,6 +4,9 @@ inputs:
   githubToken:
     description: GitHub token
     required: true
+  prompt:
+    description: Prompt prepending the diff sent to the LLM
+    required: false
   exclude:
     description: Files to exclude from review
     default: ''
