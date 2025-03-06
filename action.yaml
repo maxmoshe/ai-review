@@ -1,4 +1,4 @@
-name: ai-review
+name: maxmoshe/ai-review
 description: Review code
 inputs:
   githubToken:
