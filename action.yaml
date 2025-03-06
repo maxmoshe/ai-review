@@ -1,5 +1,5 @@
 name: maxmoshe/ai-review
-description: Review code
+description: PR AI Code Review
 inputs:
   githubToken:
     description: GitHub token
